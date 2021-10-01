@@ -61,11 +61,7 @@ func initTracing() func(context.Context) {
 	)
 
 	otel.SetTracerProvider(tracerProvider)
-	propagator := propagation.NewCompositeTextMapPropagator(
-		propagation.Baggage{},
-		propagation.TraceContext{},
-	)
-	otel.SetTextMapPropagator(propagator)
+	otel.SetTextMapPropagator(propagation.TraceContext{})
 
 	return func(ctx context.Context) {
 		_ = tracerProvider.Shutdown(ctx)
